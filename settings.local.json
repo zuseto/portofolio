@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(node -e ' *)",
+      "Bash(node --check /tmp/_check.js)",
+      "Bash(rm -f /tmp/_check.js)"
+    ]
+  }
+}
