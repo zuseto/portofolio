@@ -547,13 +547,31 @@ footer .copy .heart{color:var(--green)}
       <p class="section-desc" data-i18n="blog_desc">Catatan, tips, dan tutorial seputar dunia IT dan desain.</p>
     </div>
     <div class="blog-grid" id="blogGrid">
-      <!-- Loading state -->
-      <article class="post reveal" data-delay="1">
-        <div class="thumb"><i class="fas fa-spinner fa-spin"></i></div>
+      <article class="post reveal" data-delay="1" onclick="window.open('https://www.selcerdas.com/2026/05/7-cara-ampuh-mempercepat-koneksi.html','_blank')" style="cursor:pointer">
+        <div class="thumb"><i class="fas fa-lightbulb"></i><span class="cat">Tips</span></div>
         <div class="body">
-          <div class="meta"><span>Loading...</span></div>
-          <h4>Memuat artikel terbaru...</h4>
-          <p>Mengambil data dari blog...</p>
+          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post1_date">31 Mei 2026</span></span><span><i class="far fa-clock"></i> 5 min</span></div>
+          <h4 data-i18n="post1_t">7 Cara Ampuh Mempercepat Koneksi Internet di Rumah</h4>
+          <p data-i18n="post1_d">Koneksi internet lemot? Coba 7 trik sederhana ini untuk meningkatkan kecepatan WiFi di rumah tanpa perlu upgrade paket.</p>
+          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="post reveal" data-delay="2" onclick="window.open('https://www.selcerdas.com/2026/05/panduan-lengkap-backup-data-penting.html','_blank')" style="cursor:pointer">
+        <div class="thumb"><i class="fas fa-book-open"></i><span class="cat">Tutorial</span></div>
+        <div class="body">
+          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post2_date">31 Mei 2026</span></span><span><i class="far fa-clock"></i> 7 min</span></div>
+          <h4 data-i18n="post2_t">Panduan Lengkap Backup Data Penting Agar Tidak Hilang</h4>
+          <p data-i18n="post2_d">Jangan sampai kehilangan data penting! Pelajari cara backup yang benar menggunakan cloud storage dan hard drive eksternal.</p>
+          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </article>
+      <article class="post reveal" data-delay="3" onclick="window.open('https://www.selcerdas.com/2026/05/5-tanda-laptop-kamu-terkena-virus-dan.html','_blank')" style="cursor:pointer">
+        <div class="thumb"><i class="fas fa-shield-halved"></i><span class="cat">Security</span></div>
+        <div class="body">
+          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post3_date">31 Mei 2026</span></span><span><i class="far fa-clock"></i> 6 min</span></div>
+          <h4 data-i18n="post3_t">5 Tanda Laptop Kamu Terkena Virus dan Cara Mengatasinya</h4>
+          <p data-i18n="post3_d">Laptop tiba-tiba lemot atau muncul iklan aneh? Kenali tanda-tanda virus dan cara membersihkannya dengan mudah.</p>
+          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
         </div>
       </article>
     </div>
@@ -658,9 +676,9 @@ var I18N={
     exp4_y:'2019 — 2020',exp4_t:'School Admin Operator',exp4_p:'SMK Parulian 3 Medan',exp4_d:'Managing school information systems, performing digital input and validation of student, teacher, and school administration data.',
     certs_tag:'Certificates',certs_title:'Certifications & <span class="hl">achievements</span>',certs_desc:'Proof of my commitment to keep learning and stay current with technology.',
     blog_tag:'Blog',blog_title:'Latest <span class="hl">posts</span>',blog_desc:'Notes, tips, and tutorials around IT and design.',
-    post1_date:'May 12, 2026',post1_t:'5 Simple Habits to Keep Your Accounts Safe',post1_d:'Practical steps people often forget, but that effectively protect your data every day.',
-    post2_date:'Apr 28, 2026',post2_t:'Slow Laptop? Try These 7 Tricks First',post2_d:'Before buying new, there are plenty of free ways to make your old laptop fast again.',
-    post3_date:'Apr 15, 2026',post3_t:'Design Principles That Level Up Your Visuals',post3_d:'Core concepts of color, spacing, and typography you can apply right away.',
+    post1_date:'May 31, 2026',post1_t:'7 Effective Ways to Speed Up Your Home Internet',post1_d:'Slow internet? Try these 7 simple tricks to boost your WiFi speed at home without upgrading your plan.',
+    post2_date:'May 31, 2026',post2_t:'Complete Guide to Backing Up Important Data',post2_d:'Don\'t lose your important data! Learn the right way to backup using cloud storage and external hard drives.',
+    post3_date:'May 31, 2026',post3_t:'5 Signs Your Laptop Has a Virus and How to Fix It',post3_d:'Laptop suddenly slow or showing weird ads? Recognize virus symptoms and how to clean them easily.',
     read_more:'Read more <i class="fas fa-arrow-right"></i>',
     contact_tag:'Contact',contact_title:'Let\'s <span class="hl">talk</span>',contact_desc:'Got a project or just want to chat? Send a message, I\'ll reply as soon as I can.',
     form_name:'Name',form_name_ph:'Your name',form_email:'Email',form_msg:'Message',form_msg_ph:'Tell me what you need...',form_send:'Send Message',
@@ -1088,110 +1106,6 @@ function smoothTo(target){
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape' && modal.classList.contains('show'))closeCert();
   });
-})();
-
-/* ===== FETCH BLOG POSTS FROM MASHABIBI.COM ===== */
-(function(){
-  var blogGrid=document.getElementById('blogGrid');
-  if(!blogGrid)return;
-
-  // Use RSS2JSON service for reliable CORS-free access
-  var BLOG_URL='https://www.mashabibi.com/feeds/posts/default';
-  var RSS2JSON_API='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(BLOG_URL)+'&count=3';
-
-  var ICON_MAP={
-    'Teknologi':'fa-laptop-code','Tutorial':'fa-book-open','Tips':'fa-lightbulb',
-    'Review':'fa-star','News':'fa-newspaper','Security':'fa-shield-halved',
-    'Design':'fa-palette','Islam':'fa-mosque','Kesehatan':'fa-heartbeat',
-    'Hiburan':'fa-film','default':'fa-file-alt'
-  };
-
-  function getIcon(categories){
-    if(!categories||!categories.length)return 'fa-file-alt';
-    for(var i=0;i<categories.length;i++){
-      if(ICON_MAP[categories[i]])return ICON_MAP[categories[i]];
-    }
-    return ICON_MAP.default;
-  }
-
-  function formatDate(dateStr){
-    var d=new Date(dateStr);
-    var months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
-  }
-
-  function stripHtml(html){
-    var tmp=document.createElement('div');
-    tmp.innerHTML=html;
-    return tmp.textContent||tmp.innerText||'';
-  }
-
-  function createPostCard(post,delay){
-    var title=post.title||'Untitled';
-    var url=post.link||'#';
-    var content=stripHtml(post.description||post.content||'');
-    var excerpt=content.substring(0,120)+(content.length>120?'...':'');
-    var date=post.pubDate?formatDate(post.pubDate):'';
-    var categories=post.categories||[];
-    var cat=categories.length?categories[0]:'Artikel';
-    var icon=getIcon(categories);
-
-    var article=document.createElement('article');
-    article.className='post reveal';
-    article.setAttribute('data-delay',delay);
-    article.style.cursor='pointer';
-    article.onclick=function(){window.open(url,'_blank');};
-
-    article.innerHTML='<div class="thumb"><i class="fas '+icon+'"></i><span class="cat">'+cat+'</span></div>'+
-      '<div class="body">'+
-      '<div class="meta"><span><i class="far fa-calendar"></i> '+date+'</span></div>'+
-      '<h4>'+title+'</h4>'+
-      '<p>'+excerpt+'</p>'+
-      '<span class="more">Baca selengkapnya <i class="fas fa-arrow-right"></i></span>'+
-      '</div>';
-
-    return article;
-  }
-
-  function renderPosts(items){
-    if(!items||items.length===0){
-      blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Belum ada artikel.</p>';
-      return;
-    }
-    blogGrid.innerHTML='';
-    items.slice(0,3).forEach(function(post,i){
-      var card=createPostCard(post,i+1);
-      blogGrid.appendChild(card);
-    });
-    // Re-trigger reveal animation
-    if(!prefersReduced){
-      var newReveals=[].slice.call(blogGrid.querySelectorAll('.reveal'));
-      setTimeout(function(){
-        newReveals.forEach(function(el){el.classList.add('in');});
-      },100);
-    }
-  }
-
-  function loadPosts(){
-    fetch(RSS2JSON_API)
-      .then(function(res){
-        if(!res.ok)throw new Error('Fetch failed with status: '+res.status);
-        return res.json();
-      })
-      .then(function(data){
-        if(data.status==='ok'){
-          renderPosts(data.items);
-        }else{
-          throw new Error('RSS2JSON returned error: '+(data.message||'Unknown'));
-        }
-      })
-      .catch(function(err){
-        console.error('Failed to load blog posts:',err);
-        blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Gagal memuat artikel. <a href="https://www.mashabibi.com" target="_blank" style="color:var(--green)">Kunjungi blog →</a></p>';
-      });
-  }
-
-  loadPosts();
 })();
 
 })();
