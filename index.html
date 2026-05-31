@@ -1090,25 +1090,28 @@ function smoothTo(target){
   });
 })();
 
-/* ===== FETCH BLOG POSTS FROM SELCERDAS.COM ===== */
+/* ===== FETCH BLOG POSTS FROM MASHABIBI.COM ===== */
 (function(){
   var blogGrid=document.getElementById('blogGrid');
   if(!blogGrid)return;
 
-  // Try direct fetch first, fallback to CORS proxy if needed
-  var FEED_URL='https://www.selcerdas.com/feeds/posts/default?alt=json&max-results=3';
-  var CORS_PROXY='https://api.allorigins.win/raw?url=';
+  // Use RSS2JSON service for reliable CORS-free access
+  var BLOG_URL='https://www.mashabibi.com/feeds/posts/default';
+  var RSS2JSON_API='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent(BLOG_URL)+'&count=3';
 
   var ICON_MAP={
     'Teknologi':'fa-laptop-code','Tutorial':'fa-book-open','Tips':'fa-lightbulb',
     'Review':'fa-star','News':'fa-newspaper','Security':'fa-shield-halved',
-    'Design':'fa-palette','default':'fa-file-alt'
+    'Design':'fa-palette','Islam':'fa-mosque','Kesehatan':'fa-heartbeat',
+    'Hiburan':'fa-film','default':'fa-file-alt'
   };
 
   function getIcon(categories){
     if(!categories||!categories.length)return 'fa-file-alt';
-    var cat=categories[0];
-    return ICON_MAP[cat]||ICON_MAP.default;
+    for(var i=0;i<categories.length;i++){
+      if(ICON_MAP[categories[i]])return ICON_MAP[categories[i]];
+    }
+    return ICON_MAP.default;
   }
 
   function formatDate(dateStr){
@@ -1124,13 +1127,12 @@ function smoothTo(target){
   }
 
   function createPostCard(post,delay){
-    var title=post.title.$t||'Untitled';
-    var link=post.link.find(function(l){return l.rel==='alternate';});
-    var url=link?link.href:'#';
-    var content=post.content?stripHtml(post.content.$t):post.summary?stripHtml(post.summary.$t):'';
+    var title=post.title||'Untitled';
+    var url=post.link||'#';
+    var content=stripHtml(post.description||post.content||'');
     var excerpt=content.substring(0,120)+(content.length>120?'...':'');
-    var date=post.published?formatDate(post.published.$t):'';
-    var categories=post.category?post.category.map(function(c){return c.term;}):[];
+    var date=post.pubDate?formatDate(post.pubDate):'';
+    var categories=post.categories||[];
     var cat=categories.length?categories[0]:'Artikel';
     var icon=getIcon(categories);
 
@@ -1151,14 +1153,13 @@ function smoothTo(target){
     return article;
   }
 
-  function renderPosts(data){
-    var entries=data.feed.entry||[];
-    if(entries.length===0){
+  function renderPosts(items){
+    if(!items||items.length===0){
       blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Belum ada artikel.</p>';
       return;
     }
     blogGrid.innerHTML='';
-    entries.slice(0,3).forEach(function(post,i){
+    items.slice(0,3).forEach(function(post,i){
       var card=createPostCard(post,i+1);
       blogGrid.appendChild(card);
     });
@@ -1172,25 +1173,21 @@ function smoothTo(target){
   }
 
   function loadPosts(){
-    // Use CORS proxy directly for reliability
-    var proxyUrl=CORS_PROXY+encodeURIComponent(FEED_URL);
-
-    fetch(proxyUrl)
+    fetch(RSS2JSON_API)
       .then(function(res){
         if(!res.ok)throw new Error('Fetch failed with status: '+res.status);
-        return res.text();
+        return res.json();
       })
-      .then(function(text){
-        try{
-          var data=JSON.parse(text);
-          renderPosts(data);
-        }catch(e){
-          throw new Error('JSON parse failed: '+e.message);
+      .then(function(data){
+        if(data.status==='ok'){
+          renderPosts(data.items);
+        }else{
+          throw new Error('RSS2JSON returned error: '+(data.message||'Unknown'));
         }
       })
       .catch(function(err){
         console.error('Failed to load blog posts:',err);
-        blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Gagal memuat artikel. <a href="https://www.selcerdas.com" target="_blank" style="color:var(--green)">Kunjungi blog →</a></p>';
+        blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Gagal memuat artikel. <a href="https://www.mashabibi.com" target="_blank" style="color:var(--green)">Kunjungi blog →</a></p>';
       });
   }
 
