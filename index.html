@@ -1095,7 +1095,10 @@ function smoothTo(target){
   var blogGrid=document.getElementById('blogGrid');
   if(!blogGrid)return;
 
+  // Try direct fetch first, fallback to CORS proxy if needed
   var FEED_URL='https://www.selcerdas.com/feeds/posts/default?alt=json&max-results=3';
+  var CORS_PROXY='https://api.allorigins.win/raw?url=';
+
   var ICON_MAP={
     'Teknologi':'fa-laptop-code','Tutorial':'fa-book-open','Tips':'fa-lightbulb',
     'Review':'fa-star','News':'fa-newspaper','Security':'fa-shield-halved',
@@ -1148,26 +1151,41 @@ function smoothTo(target){
     return article;
   }
 
+  function renderPosts(data){
+    var entries=data.feed.entry||[];
+    if(entries.length===0){
+      blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Belum ada artikel.</p>';
+      return;
+    }
+    blogGrid.innerHTML='';
+    entries.slice(0,3).forEach(function(post,i){
+      var card=createPostCard(post,i+1);
+      blogGrid.appendChild(card);
+    });
+    // Re-trigger reveal animation
+    if(!prefersReduced){
+      var newReveals=[].slice.call(blogGrid.querySelectorAll('.reveal'));
+      setTimeout(function(){
+        newReveals.forEach(function(el){el.classList.add('in');});
+      },100);
+    }
+  }
+
   function loadPosts(){
-    fetch(FEED_URL)
-      .then(function(res){return res.json();})
-      .then(function(data){
-        var entries=data.feed.entry||[];
-        if(entries.length===0){
-          blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Belum ada artikel.</p>';
-          return;
-        }
-        blogGrid.innerHTML='';
-        entries.slice(0,3).forEach(function(post,i){
-          var card=createPostCard(post,i+1);
-          blogGrid.appendChild(card);
-        });
-        // Re-trigger reveal animation
-        if(!prefersReduced){
-          var newReveals=[].slice.call(blogGrid.querySelectorAll('.reveal'));
-          setTimeout(function(){
-            newReveals.forEach(function(el){el.classList.add('in');});
-          },100);
+    // Use CORS proxy directly for reliability
+    var proxyUrl=CORS_PROXY+encodeURIComponent(FEED_URL);
+
+    fetch(proxyUrl)
+      .then(function(res){
+        if(!res.ok)throw new Error('Fetch failed with status: '+res.status);
+        return res.text();
+      })
+      .then(function(text){
+        try{
+          var data=JSON.parse(text);
+          renderPosts(data);
+        }catch(e){
+          throw new Error('JSON parse failed: '+e.message);
         }
       })
       .catch(function(err){
