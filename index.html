@@ -193,12 +193,23 @@ nav.scrolled{padding:11px 0;background:rgba(7,11,9,.72);backdrop-filter:blur(16p
 .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
 .cert{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.3s}
 .cert:hover{transform:translateY(-7px);border-color:var(--border-glow);box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.cert.cert-clickable{cursor:pointer;position:relative}
+.cert.cert-clickable::after{content:'👁️ Lihat';position:absolute;bottom:20px;right:20px;font-size:.75rem;color:var(--green);opacity:0;transition:.3s;font-family:'JetBrains Mono',monospace;background:rgba(34,229,126,.15);padding:5px 10px;border-radius:6px;border:1px solid var(--green)}
+.cert.cert-clickable:hover::after{opacity:1}
 .cert .head{height:120px;background:linear-gradient(135deg,rgba(34,229,126,.18),rgba(15,208,181,.1));display:grid;place-items:center;font-size:2.4rem;color:var(--green);position:relative;overflow:hidden}
 .cert .head::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 14px,rgba(34,229,126,.05) 14px,rgba(34,229,126,.05) 28px)}
 .cert .body{padding:20px}
 .cert .body .org{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--green);margin-bottom:6px}
 .cert .body h4{font-size:1.05rem;font-weight:700;margin-bottom:8px}
 .cert .body .date{font-size:.82rem;color:var(--text-muted);display:flex;align-items:center;gap:7px}
+/* ==== CERTIFICATE MODAL ==== */
+.cert-modal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
+.cert-modal.show{display:flex;opacity:1}
+.cert-modal-content{position:relative;max-width:90vw;max-height:90vh;background:var(--bg-soft);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7);border:1px solid var(--border-glow)}
+.cert-modal-content img{display:block;max-width:100%;max-height:85vh;object-fit:contain}
+.cert-modal-content iframe{width:90vw;height:85vh;border:none}
+.cert-modal-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:var(--grad);color:#04140b;border:none;font-size:1.3rem;cursor:pointer;display:grid;place-items:center;z-index:10000;transition:.25s;box-shadow:0 4px 16px rgba(34,229,126,.4)}
+.cert-modal-close:hover{transform:scale(1.1) rotate(90deg)}
 /* ==== TIMELINE ==== */
 .timeline{position:relative;max-width:760px;margin:0 auto;padding-left:34px}
 .timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--green),var(--teal),transparent)}
@@ -362,15 +373,15 @@ footer .copy .heart{color:var(--green)}
         <a href="#about" class="btn btn-ghost"><i class="fas fa-user"></i> <span data-i18n="hero_cta2">Tentang Saya</span></a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><div class="num" data-count="4">0</div><div class="lbl" data-i18n="hero_stat1">Tahun Pengalaman</div></div>
+        <div class="stat"><div class="num" data-count="8">0</div><div class="lbl" data-i18n="hero_stat1">Tahun Pengalaman</div></div>
         <div class="stat"><div class="num" data-count="50" data-suffix="+">0</div><div class="lbl" data-i18n="hero_stat2">Proyek Selesai</div></div>
-        <div class="stat"><div class="num" data-count="12" data-suffix="+">0</div><div class="lbl" data-i18n="hero_stat3">Sertifikasi</div></div>
+        <div class="stat"><div class="num" data-count="8" data-suffix="+">0</div><div class="lbl" data-i18n="hero_stat3">Sertifikasi</div></div>
       </div>
       <div class="socials">
-        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="https://github.com/zuseto" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/zuseto/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/sizul_han03/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/6283179227266" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div class="hero-visual">
@@ -499,9 +510,10 @@ footer .copy .heart{color:var(--green)}
       <h2 class="section-title" data-i18n="exp_title" data-i18n-html>Jejak <span class="hl">pengalaman</span></h2>
     </div>
     <div class="timeline">
-      <div class="tl-item reveal left"><div class="yr" data-i18n="exp1_y">2024 — Sekarang</div><h4 data-i18n="exp1_t">IT Support Specialist</h4><div class="place" data-i18n="exp1_p">Perusahaan Teknologi</div><p data-i18n="exp1_d">Menangani support harian, mengelola infrastruktur, dan meningkatkan response time tim helpdesk.</p></div>
-      <div class="tl-item reveal left" data-delay="1"><div class="yr" data-i18n="exp2_y">2022 — 2024</div><h4 data-i18n="exp2_t">Freelance Graphic Designer</h4><div class="place" data-i18n="exp2_p">Mandiri</div><p data-i18n="exp2_d">Mengerjakan puluhan proyek desain untuk UMKM dan brand lokal dari berbagai industri.</p></div>
-      <div class="tl-item reveal left" data-delay="2"><div class="yr" data-i18n="exp3_y">2021 — 2022</div><h4 data-i18n="exp3_t">Technical Intern</h4><div class="place" data-i18n="exp3_p">Startup IT</div><p data-i18n="exp3_d">Belajar langsung soal jaringan, server, dan support sambil menyelesaikan studi.</p></div>
+      <div class="tl-item reveal left"><div class="yr" data-i18n="exp1_y">2021 — Sekarang</div><h4 data-i18n="exp1_t">IT Support Specialist</h4><div class="place" data-i18n="exp1_p">Universitas Medan Area</div><p data-i18n="exp1_d">Mengelola infrastruktur IT kampus, menangani troubleshooting jaringan dan perangkat, maintenance PC & printer, serta meningkatkan response time helpdesk. Bertanggung jawab atas pengelolaan website dan media sosial Biro Penjaminan Mutu Laboratorium.</p></div>
+      <div class="tl-item reveal left" data-delay="1"><div class="yr" data-i18n="exp2_y">2023 — Sekarang</div><h4 data-i18n="exp2_t">Tech Blogger</h4><div class="place" data-i18n="exp2_p">Mandiri</div><p data-i18n="exp2_d">Menulis artikel dan tutorial seputar IT, troubleshooting, dan tips teknologi untuk membantu audiens memahami teknologi dengan lebih mudah.</p></div>
+      <div class="tl-item reveal left" data-delay="2"><div class="yr" data-i18n="exp3_y">2020 — 2021</div><h4 data-i18n="exp3_t">Guru TKJ</h4><div class="place" data-i18n="exp3_p">SMK Muhammadiyah 6 Medan</div><p data-i18n="exp3_d">Mengajar mata pelajaran Teknik Komputer dan Jaringan (TKJ), membimbing siswa dalam praktik instalasi jaringan, konfigurasi router, dan troubleshooting sistem.</p></div>
+      <div class="tl-item reveal left" data-delay="3"><div class="yr" data-i18n="exp4_y">2019 — 2020</div><h4 data-i18n="exp4_t">Admin Operator Sekolah</h4><div class="place" data-i18n="exp4_p">SMK Parulian 3 Medan</div><p data-i18n="exp4_d">Mengelola sistem informasi sekolah, melakukan input dan validasi data siswa, guru, dan administrasi sekolah secara digital.</p></div>
     </div>
   </div>
 </section>
@@ -515,10 +527,14 @@ footer .copy .heart{color:var(--green)}
       <p class="section-desc" data-i18n="certs_desc">Bukti komitmenku untuk terus belajar dan mengikuti perkembangan teknologi.</p>
     </div>
     <div class="cert-grid">
-      <div class="cert reveal scale" data-delay="1"><div class="head"><i class="fas fa-network-wired"></i></div><div class="body"><div class="org">Cisco</div><h4>CCNA Routing & Switching</h4><div class="date"><i class="far fa-calendar"></i> 2024</div></div></div>
-      <div class="cert reveal scale" data-delay="2"><div class="head"><i class="fab fa-microsoft"></i></div><div class="body"><div class="org">Microsoft</div><h4>Azure Fundamentals (AZ-900)</h4><div class="date"><i class="far fa-calendar"></i> 2023</div></div></div>
-      <div class="cert reveal scale" data-delay="3"><div class="head"><i class="fab fa-google"></i></div><div class="body"><div class="org">Google</div><h4>IT Support Professional</h4><div class="date"><i class="far fa-calendar"></i> 2023</div></div></div>
-      <div class="cert reveal scale" data-delay="4"><div class="head"><i class="fab fa-linux"></i></div><div class="body"><div class="org">LPI</div><h4>Linux Essentials</h4><div class="date"><i class="far fa-calendar"></i> 2022</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="1" data-cert="certificates/CyberSecurity.pdf"><div class="head"><i class="fas fa-shield-halved"></i></div><div class="body"><div class="org">IDWebhost</div><h4>CyberSecurity: Strategi Penanganan Deface</h4><div class="date"><i class="far fa-calendar"></i> 2024</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="2" data-cert="certificates/Microsoft-Azure-AI-Fundamentals.pdf"><div class="head"><i class="fab fa-microsoft"></i></div><div class="body"><div class="org">Microsoft</div><h4>Azure AI Fundamentals</h4><div class="date"><i class="far fa-calendar"></i> 2023</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="3" data-cert="certificates/AWS-Cloud-Foundations.pdf"><div class="head"><i class="fab fa-aws"></i></div><div class="body"><div class="org">Kominfo</div><h4>AWS Cloud Foundations</h4><div class="date"><i class="far fa-calendar"></i> 2023</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="4" data-cert="certificates/google-cloud-fundamental.pdf"><div class="head"><i class="fab fa-google"></i></div><div class="body"><div class="org">Kominfo</div><h4>Google Cloud Fundamental</h4><div class="date"><i class="far fa-calendar"></i> 2022</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="5" data-cert="certificates/teknisi-jaringan.jpg"><div class="head"><i class="fas fa-network-wired"></i></div><div class="body"><div class="org">Dian Nusantara</div><h4>Teknisi Jaringan</h4><div class="date"><i class="far fa-calendar"></i> 2020</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="6" data-cert="certificates/network-admin.jpg"><div class="head"><i class="fas fa-server"></i></div><div class="body"><div class="org">Pelatihan</div><h4>Network Admin & IT Support</h4><div class="date"><i class="far fa-calendar"></i> 2020</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="1" data-cert="certificates/Junior-Technical-Support.pdf"><div class="head"><i class="fas fa-certificate"></i></div><div class="body"><div class="org">BNSP LSP-TIK</div><h4>Junior Technical Support</h4><div class="date"><i class="far fa-calendar"></i> 2019</div></div></div>
+      <div class="cert reveal scale cert-clickable" data-delay="2" data-cert="certificates/operator-desain-grafis.pdf"><div class="head"><i class="fas fa-palette"></i></div><div class="body"><div class="org">PKBM</div><h4>Operator Desain Grafis</h4><div class="date"><i class="far fa-calendar"></i> 2017</div></div></div>
     </div>
   </div>
 </section>
@@ -530,32 +546,14 @@ footer .copy .heart{color:var(--green)}
       <h2 class="section-title" data-i18n="blog_title" data-i18n-html>Tulisan <span class="hl">terbaru</span></h2>
       <p class="section-desc" data-i18n="blog_desc">Catatan, tips, dan tutorial seputar dunia IT dan desain.</p>
     </div>
-    <div class="blog-grid">
+    <div class="blog-grid" id="blogGrid">
+      <!-- Loading state -->
       <article class="post reveal" data-delay="1">
-        <div class="thumb"><i class="fas fa-shield-halved"></i><span class="cat">Security</span></div>
+        <div class="thumb"><i class="fas fa-spinner fa-spin"></i></div>
         <div class="body">
-          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post1_date">12 Mei 2026</span></span><span><i class="far fa-clock"></i> 5 min</span></div>
-          <h4 data-i18n="post1_t">5 Kebiasaan Sederhana Biar Akunmu Aman</h4>
-          <p data-i18n="post1_d">Langkah praktis yang sering dilupakan tapi ampuh melindungi data pribadimu sehari-hari.</p>
-          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </article>
-      <article class="post reveal" data-delay="2">
-        <div class="thumb"><i class="fas fa-laptop-medical"></i><span class="cat">Tips</span></div>
-        <div class="body">
-          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post2_date">28 Apr 2026</span></span><span><i class="far fa-clock"></i> 7 min</span></div>
-          <h4 data-i18n="post2_t">Laptop Lemot? Coba 7 Trik Ini Dulu</h4>
-          <p data-i18n="post2_d">Sebelum beli baru, ada banyak cara gratis untuk bikin laptop lamamu kembali ngebut.</p>
-          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </article>
-      <article class="post reveal" data-delay="3">
-        <div class="thumb"><i class="fas fa-palette"></i><span class="cat">Design</span></div>
-        <div class="body">
-          <div class="meta"><span><i class="far fa-calendar"></i> <span data-i18n="post3_date">15 Apr 2026</span></span><span><i class="far fa-clock"></i> 6 min</span></div>
-          <h4 data-i18n="post3_t">Prinsip Desain yang Bikin Visualmu Naik Kelas</h4>
-          <p data-i18n="post3_d">Konsep dasar warna, spasi, dan tipografi yang langsung bisa kamu praktikkan.</p>
-          <span class="more" data-i18n="read_more" data-i18n-html>Baca selengkapnya <i class="fas fa-arrow-right"></i></span>
+          <div class="meta"><span>Loading...</span></div>
+          <h4>Memuat artikel terbaru...</h4>
+          <p>Mengambil data dari blog...</p>
         </div>
       </article>
     </div>
@@ -598,10 +596,10 @@ footer .copy .heart{color:var(--green)}
   <div class="container">
     <a href="#home" class="logo"><span class="dot"></span><span>zulhan</span>.portfolio</a>
     <div class="fsoc">
-      <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://github.com/zuseto" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/zuseto/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://www.instagram.com/sizul_han03/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/6283179227266" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
     </div>
     <p class="copy" data-i18n="footer_copy" data-i18n-html>© 2026 Zulhan — Dibuat dengan <span class="heart"><i class="fas fa-heart"></i></span> & banyak kopi.</p>
   </div>
@@ -613,6 +611,12 @@ footer .copy .heart{color:var(--green)}
   <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
 </button>
 <audio id="bgMusic" loop preload="auto"></audio>
+
+<!-- CERTIFICATE MODAL -->
+<div class="cert-modal" id="certModal">
+  <button class="cert-modal-close" id="certModalClose" aria-label="Tutup"><i class="fas fa-times"></i></button>
+  <div class="cert-modal-content" id="certModalContent"></div>
+</div>
 <script>
 (function(){
 'use strict';
@@ -648,9 +652,10 @@ var I18N={
     svc5_t:'Tech Blogging',svc5_d:'Writing easy-to-understand tech articles & tutorials for a general audience.',
     svc6_t:'IT Consulting',svc6_d:'Advice on devices, software, and tech solutions that fit your budget and needs.',
     exp_tag:'Journey',exp_title:'Experience <span class="hl">timeline</span>',
-    exp1_y:'2024 — Present',exp1_t:'IT Support Specialist',exp1_p:'Tech Company',exp1_d:'Handling daily support, managing infrastructure, and improving helpdesk response times.',
-    exp2_y:'2022 — 2024',exp2_t:'Freelance Graphic Designer',exp2_p:'Independent',exp2_d:'Delivered dozens of design projects for SMEs and local brands across industries.',
-    exp3_y:'2021 — 2022',exp3_t:'Technical Intern',exp3_p:'IT Startup',exp3_d:'Learned networking, servers, and support hands-on while finishing my studies.',
+    exp1_y:'2021 — Present',exp1_t:'IT Support Specialist',exp1_p:'Universitas Medan Area',exp1_d:'Managing campus IT infrastructure, handling network and device troubleshooting, PC & printer maintenance, and improving helpdesk response times. Responsible for website and social media management of the Laboratory Quality Assurance Bureau.',
+    exp2_y:'2023 — Present',exp2_t:'Tech Blogger',exp2_p:'Independent',exp2_d:'Writing articles and tutorials about IT, troubleshooting, and tech tips to help audiences understand technology more easily.',
+    exp3_y:'2020 — 2021',exp3_t:'Computer Network Teacher',exp3_p:'SMK Muhammadiyah 6 Medan',exp3_d:'Teaching Computer and Network Engineering (TKJ), guiding students in network installation practices, router configuration, and system troubleshooting.',
+    exp4_y:'2019 — 2020',exp4_t:'School Admin Operator',exp4_p:'SMK Parulian 3 Medan',exp4_d:'Managing school information systems, performing digital input and validation of student, teacher, and school administration data.',
     certs_tag:'Certificates',certs_title:'Certifications & <span class="hl">achievements</span>',certs_desc:'Proof of my commitment to keep learning and stay current with technology.',
     blog_tag:'Blog',blog_title:'Latest <span class="hl">posts</span>',blog_desc:'Notes, tips, and tutorials around IT and design.',
     post1_date:'May 12, 2026',post1_t:'5 Simple Habits to Keep Your Accounts Safe',post1_d:'Practical steps people often forget, but that effectively protect your data every day.',
@@ -1030,6 +1035,148 @@ function smoothTo(target){
   window.addEventListener('mousemove',function(e){mouse.x=e.clientX;mouse.y=e.clientY;});
   window.addEventListener('mouseout',function(){mouse.x=-9999;mouse.y=-9999;});
   size(); draw();
+})();
+
+/* ===== CERTIFICATE MODAL ===== */
+(function(){
+  var modal=document.getElementById('certModal');
+  var modalContent=document.getElementById('certModalContent');
+  var closeBtn=document.getElementById('certModalClose');
+  var certs=[].slice.call(document.querySelectorAll('.cert-clickable'));
+
+  function openCert(path){
+    var ext=path.split('.').pop().toLowerCase();
+    modalContent.innerHTML='';
+
+    if(ext==='pdf'){
+      // Open PDF in new tab for better experience
+      window.open(path,'_blank');
+      return;
+    }else{
+      // Display image in modal
+      var img=document.createElement('img');
+      img.src=path;
+      img.alt='Certificate';
+      img.style.opacity='0';
+      img.onload=function(){
+        setTimeout(function(){img.style.opacity='1';img.style.transition='opacity .3s';},50);
+      };
+      modalContent.appendChild(img);
+      modal.classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+  }
+
+  function closeCert(){
+    modal.classList.remove('show');
+    document.body.style.overflow='';
+    setTimeout(function(){modalContent.innerHTML='';},300);
+  }
+
+  certs.forEach(function(cert){
+    cert.addEventListener('click',function(){
+      var path=cert.getAttribute('data-cert');
+      if(path)openCert(path);
+    });
+  });
+
+  if(closeBtn)closeBtn.addEventListener('click',closeCert);
+  modal.addEventListener('click',function(e){
+    if(e.target===modal)closeCert();
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && modal.classList.contains('show'))closeCert();
+  });
+})();
+
+/* ===== FETCH BLOG POSTS FROM SELCERDAS.COM ===== */
+(function(){
+  var blogGrid=document.getElementById('blogGrid');
+  if(!blogGrid)return;
+
+  var FEED_URL='https://www.selcerdas.com/feeds/posts/default?alt=json&max-results=3';
+  var ICON_MAP={
+    'Teknologi':'fa-laptop-code','Tutorial':'fa-book-open','Tips':'fa-lightbulb',
+    'Review':'fa-star','News':'fa-newspaper','Security':'fa-shield-halved',
+    'Design':'fa-palette','default':'fa-file-alt'
+  };
+
+  function getIcon(categories){
+    if(!categories||!categories.length)return 'fa-file-alt';
+    var cat=categories[0];
+    return ICON_MAP[cat]||ICON_MAP.default;
+  }
+
+  function formatDate(dateStr){
+    var d=new Date(dateStr);
+    var months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+  }
+
+  function stripHtml(html){
+    var tmp=document.createElement('div');
+    tmp.innerHTML=html;
+    return tmp.textContent||tmp.innerText||'';
+  }
+
+  function createPostCard(post,delay){
+    var title=post.title.$t||'Untitled';
+    var link=post.link.find(function(l){return l.rel==='alternate';});
+    var url=link?link.href:'#';
+    var content=post.content?stripHtml(post.content.$t):post.summary?stripHtml(post.summary.$t):'';
+    var excerpt=content.substring(0,120)+(content.length>120?'...':'');
+    var date=post.published?formatDate(post.published.$t):'';
+    var categories=post.category?post.category.map(function(c){return c.term;}):[];
+    var cat=categories.length?categories[0]:'Artikel';
+    var icon=getIcon(categories);
+
+    var article=document.createElement('article');
+    article.className='post reveal';
+    article.setAttribute('data-delay',delay);
+    article.style.cursor='pointer';
+    article.onclick=function(){window.open(url,'_blank');};
+
+    article.innerHTML='<div class="thumb"><i class="fas '+icon+'"></i><span class="cat">'+cat+'</span></div>'+
+      '<div class="body">'+
+      '<div class="meta"><span><i class="far fa-calendar"></i> '+date+'</span></div>'+
+      '<h4>'+title+'</h4>'+
+      '<p>'+excerpt+'</p>'+
+      '<span class="more">Baca selengkapnya <i class="fas fa-arrow-right"></i></span>'+
+      '</div>';
+
+    return article;
+  }
+
+  function loadPosts(){
+    fetch(FEED_URL)
+      .then(function(res){return res.json();})
+      .then(function(data){
+        var entries=data.feed.entry||[];
+        if(entries.length===0){
+          blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Belum ada artikel.</p>';
+          return;
+        }
+        blogGrid.innerHTML='';
+        entries.slice(0,3).forEach(function(post,i){
+          var card=createPostCard(post,i+1);
+          blogGrid.appendChild(card);
+        });
+        // Re-trigger reveal animation
+        if(!prefersReduced){
+          var newReveals=[].slice.call(blogGrid.querySelectorAll('.reveal'));
+          setTimeout(function(){
+            newReveals.forEach(function(el){el.classList.add('in');});
+          },100);
+        }
+      })
+      .catch(function(err){
+        console.error('Failed to load blog posts:',err);
+        blogGrid.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted)">Gagal memuat artikel. <a href="https://www.selcerdas.com" target="_blank" style="color:var(--green)">Kunjungi blog →</a></p>';
+      });
+  }
+
+  loadPosts();
 })();
 
 })();
