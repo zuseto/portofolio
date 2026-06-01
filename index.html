@@ -2,7 +2,7 @@
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Portfolio — IT Support, Tech Enthusiast, Graphic Designer & Blogger">
 <meta name="theme-color" content="#0a0f0c">
 <title>Zulhan's Portfolio</title>
@@ -58,7 +58,7 @@ img{max-width:100%;display:block}
   background-image:linear-gradient(rgba(34,229,126,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,229,126,.05) 1px,transparent 1px);
   background-size:46px 46px;mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%)}
 nav,.hero,section,footer,.scroll-top{position:relative;z-index:1}
-.container{max-width:1140px;margin:0 auto;padding:0 24px}
+.container{max-width:1140px;margin:0 auto;padding:0 max(24px,env(safe-area-inset-right)) 0 max(24px,env(safe-area-inset-left))}
 section{padding:110px 0;position:relative}
 .section-head{margin-bottom:54px}
 .section-tag{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;color:var(--green);font-size:.8rem;margin-bottom:14px;letter-spacing:1.5px;text-transform:uppercase}
@@ -90,7 +90,7 @@ nav.scrolled{padding:11px 0;background:rgba(7,11,9,.72);backdrop-filter:blur(16p
 .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:998;opacity:0;visibility:hidden;transition:.3s}
 .menu-overlay.show{opacity:1;visibility:visible}
 /* ==== HERO ==== */
-.hero{min-height:100vh;display:flex;align-items:center;padding-top:80px;overflow:hidden}
+.hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding-top:80px;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center;width:100%}
 .hero-badge{display:inline-flex;align-items:center;gap:9px;padding:7px 16px;border-radius:30px;background:var(--card);border:1px solid var(--border-glow);font-size:.82rem;color:var(--text-dim);margin-bottom:24px;font-family:'JetBrains Mono',monospace}
 .hero-badge .live{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.8s infinite}
@@ -254,7 +254,7 @@ footer .fsoc a:hover{color:var(--green);border-color:var(--border-glow);transfor
 footer .copy{color:var(--text-muted);font-size:.85rem}
 footer .copy .heart{color:var(--green)}
 /* ==== SCROLL TOP ==== */
-.scroll-top{position:fixed;right:26px;bottom:26px;width:50px;height:50px;border-radius:14px;background:var(--grad);color:#04140b;border:none;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(20px);transition:.3s;z-index:900;box-shadow:0 8px 28px rgba(34,229,126,.4)}
+.scroll-top{position:fixed;right:max(26px,env(safe-area-inset-right));bottom:max(26px,env(safe-area-inset-bottom));width:50px;height:50px;border-radius:14px;background:var(--grad);color:#04140b;border:none;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(20px);transition:.3s;z-index:900;box-shadow:0 8px 28px rgba(34,229,126,.4)}
 .scroll-top.show{opacity:1;visibility:visible;transform:none}
 .scroll-top:hover{transform:translateY(-4px) scale(1.06)}
 /* ==== LANGUAGE SWITCH ==== */
@@ -263,7 +263,7 @@ footer .copy .heart{color:var(--green)}
 .lang-switch button.active{background:var(--grad);color:#04140b}
 .lang-switch button:not(.active):hover{color:var(--green)}
 /* ==== MUSIC BUTTON ==== */
-.music-btn{position:fixed;left:26px;bottom:26px;width:50px;height:50px;border-radius:14px;background:var(--card);border:1px solid var(--border-glow);color:var(--green);cursor:pointer;display:grid;place-items:center;font-size:1.05rem;z-index:900;transition:.3s;backdrop-filter:blur(10px)}
+.music-btn{position:fixed;left:max(26px,env(safe-area-inset-left));bottom:max(26px,env(safe-area-inset-bottom));width:50px;height:50px;border-radius:14px;background:var(--card);border:1px solid var(--border-glow);color:var(--green);cursor:pointer;display:grid;place-items:center;font-size:1.05rem;z-index:900;transition:.3s;backdrop-filter:blur(10px)}
 .music-btn:hover{transform:translateY(-4px) scale(1.06);box-shadow:var(--glow)}
 .music-btn.playing{background:var(--grad);color:#04140b;border-color:transparent}
 .music-btn .eq{display:none;align-items:flex-end;gap:2px;height:16px}
@@ -281,7 +281,7 @@ footer .copy .heart{color:var(--green)}
 [data-theme="light"] #bgCanvas{opacity:.85}
 [data-theme="light"] .grid-overlay{opacity:.5;background-image:linear-gradient(rgba(16,140,80,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(16,140,80,.08) 1px,transparent 1px)}
 /* ==== RESPONSIVE ==== */
-@media (max-width:1100px){.container{padding:0 22px}}
+@media (max-width:1100px){.container{padding:0 max(22px,env(safe-area-inset-right)) 0 max(22px,env(safe-area-inset-left))}}
 @media (max-width:1024px){
   section{padding:90px 0}
   .nav-links a{padding:9px 12px;font-size:.88rem}
@@ -307,11 +307,14 @@ footer .copy .heart{color:var(--green)}
   .scroll-hint{display:none}
   .blog-grid,.cert-grid,.cards{grid-template-columns:1fr}
   .music-btn,.scroll-top{width:46px;height:46px}
-  .music-btn{left:18px;bottom:18px}
-  .scroll-top{right:18px;bottom:18px}
+  .music-btn{left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom))}
+  .scroll-top{right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom))}
+  /* ringankan blob di HP: blur lebih kecil, tanpa animasi, sembunyikan blob ketiga */
+  .blob{filter:blur(55px);opacity:.32;animation:none}
+  .blob.b3{display:none}
 }
 @media (max-width:520px){
-  .container{padding:0 18px}
+  .container{padding:0 max(18px,env(safe-area-inset-right)) 0 max(18px,env(safe-area-inset-left))}
   .hero h1{font-size:2.1rem}
   .hero-stats{gap:18px}
   .hero-stats .stat .num{font-size:1.55rem}
@@ -1006,12 +1009,15 @@ function smoothTo(target){
   if(!canvas || prefersReduced) return;
   var ctx=canvas.getContext('2d');
   var w,h,dpr,particles=[],mouse={x:-9999,y:-9999};
+  // perangkat sentuh / layar kecil: efek diringankan demi performa & baterai
+  var isTouch=(window.matchMedia && matchMedia('(hover:none)').matches) || window.innerWidth<=720;
+  var rafId=null, lastW=-1;
   function size(){
     dpr=Math.min(window.devicePixelRatio||1,2);
     w=canvas.clientWidth; h=canvas.clientHeight;
     canvas.width=w*dpr; canvas.height=h*dpr;
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    var count=Math.min(90,Math.floor(w*h/16000));
+    var count=Math.min(isTouch?38:90,Math.floor(w*h/(isTouch?22000:16000)));
     particles=[];
     for(var i=0;i<count;i++){
       particles.push({
@@ -1031,12 +1037,16 @@ function smoothTo(target){
       p.x+=p.vx; p.y+=p.vy;
       if(p.x<0||p.x>w)p.vx*=-1;
       if(p.y<0||p.y>h)p.vy*=-1;
-      var mdx=p.x-mouse.x, mdy=p.y-mouse.y, md=Math.sqrt(mdx*mdx+mdy*mdy);
-      if(md<120 && md>0){var f=(120-md)/120*1.5; p.x+=mdx/md*f; p.y+=mdy/md*f;}
+      if(!isTouch){
+        var mdx=p.x-mouse.x, mdy=p.y-mouse.y, md=Math.sqrt(mdx*mdx+mdy*mdy);
+        if(md<120 && md>0){var f=(120-md)/120*1.5; p.x+=mdx/md*f; p.y+=mdy/md*f;}
+      }
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
       ctx.fillStyle='rgba('+green+','+dotA+')';
       ctx.fill();
+      // garis koneksi dilewati di perangkat sentuh (loop O(n^2) berat di HP)
+      if(isTouch) continue;
       for(var j=i+1;j<particles.length;j++){
         var q=particles[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
         if(d<120){
@@ -1047,12 +1057,28 @@ function smoothTo(target){
         }
       }
     }
-    requestAnimationFrame(draw);
+    rafId=requestAnimationFrame(draw);
   }
-  window.addEventListener('resize',size);
-  window.addEventListener('mousemove',function(e){mouse.x=e.clientX;mouse.y=e.clientY;});
-  window.addEventListener('mouseout',function(){mouse.x=-9999;mouse.y=-9999;});
-  size(); draw();
+  function start(){ if(rafId===null) rafId=requestAnimationFrame(draw); }
+  function stop(){ if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; } }
+  // resize: debounce + hanya rebuild jika LEBAR berubah
+  // (di HP, scroll memunculkan/menyembunyikan address bar -> resize tinggi; jangan reset partikel)
+  var rzT;
+  window.addEventListener('resize',function(){
+    if(window.innerWidth===lastW) return;
+    clearTimeout(rzT);
+    rzT=setTimeout(function(){ lastW=window.innerWidth; size(); },200);
+  });
+  // hentikan animasi saat tab tidak terlihat -> hemat CPU/baterai
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden) stop(); else start();
+  });
+  if(!isTouch){
+    window.addEventListener('mousemove',function(e){mouse.x=e.clientX;mouse.y=e.clientY;});
+    window.addEventListener('mouseout',function(){mouse.x=-9999;mouse.y=-9999;});
+  }
+  lastW=window.innerWidth;
+  size(); start();
 })();
 
 /* ===== CERTIFICATE MODAL ===== */
